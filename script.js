@@ -2,6 +2,7 @@
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
 
+  // Copy email
   const copyBtn = document.getElementById("copyBtn");
   const email = "info@edgardbayona.com";
   if (copyBtn) {
@@ -17,12 +18,35 @@
     });
   }
 
+  // Mobile menu
   const menuBtn = document.getElementById("menuBtn");
-  if (menuBtn) {
-    menuBtn.addEventListener("click", () => {
-      const expanded = menuBtn.getAttribute("aria-expanded") === "true";
-      menuBtn.setAttribute("aria-expanded", String(!expanded));
-      alert("On mobile, use the browser scroll to navigate.\nIf you want a real slide-out menu, tell me and I’ll add it.");
+  const menuClose = document.getElementById("menuClose");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  function openMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.style.display = "flex";
+    mobileMenu.setAttribute("aria-hidden", "false");
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", "true");
+  }
+
+  function closeMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.style.display = "none";
+    mobileMenu.setAttribute("aria-hidden", "true");
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (menuBtn) menuBtn.addEventListener("click", openMenu);
+  if (menuClose) menuClose.addEventListener("click", closeMenu);
+
+  if (mobileMenu) {
+    mobileMenu.addEventListener("click", (e) => {
+      if (e.target === mobileMenu) closeMenu();
     });
   }
+
+  document.querySelectorAll(".mLink").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
 })();
